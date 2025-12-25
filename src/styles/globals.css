@@ -143,11 +143,11 @@
     flex-direction: column;
     justify-content: flex-start;
     background-image:
-      radial-gradient(at 95% 78%, rgb(224, 242, 254) 0, transparent 47%),
-      radial-gradient(at 19% 71%, rgb(129, 140, 248) 0, transparent 54%),
-      radial-gradient(at 16% 17%, rgb(241, 245, 249) 0, transparent 36%),
-      radial-gradient(at 85% 80%, rgb(167, 243, 208) 0, transparent 48%),
-      radial-gradient(at 34% 54%, rgb(245, 208, 254) 0, transparent 54%),
-      radial-gradient(at 65% 50%, rgb(224, 231, 255) 0, transparent 76%);
+      radial-gradient(at 95% 58%, rgb(224, 242, 254) 0, transparent 47%),
+      radial-gradient(at 19% 51%, rgb(129, 140, 248) 0, transparent 54%),
+      radial-gradient(at 16% -3%, rgb(241, 245, 249) 0, transparent 36%),
+      radial-gradient(at 85% 60%, rgb(167, 243, 208) 0, transparent 48%),
+      radial-gradient(at 34% 34%, rgb(245, 208, 254) 0, transparent 54%),
+      radial-gradient(at 65% 30%, rgb(224, 231, 255) 0, transparent 76%);
   }
 }

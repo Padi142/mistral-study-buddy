@@ -2,6 +2,8 @@
 
 import { ChatInterface } from "../components/chat-interface";
 import { CalendarEvents } from "~/components/calendar-events";
+import { AgentInfo } from "~/components/agent-info";
+import { GithubLink } from "~/components/github-link";
 
 export default function HomePage() {
   return (
@@ -16,6 +18,12 @@ export default function HomePage() {
         <aside className="w-80 shrink-0">
           <CalendarEvents />
         </aside>
+      </div>
+      <div className="mt-8 w-full max-w-6xl">
+        <AgentInfo />
+      </div>
+      <div className="mt-8">
+        <GithubLink />
       </div>
     </main>
   );

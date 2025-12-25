@@ -34,8 +34,17 @@ export function ChatInterface() {
   const [input, setInput] = useState("");
   const prevStatusRef = useRef<string | null>(null);
 
-  const { messages, sendMessage, status } = useChat();
+  const { messages, sendMessage, setMessages, status, error } = useChat();
   const isLoading = status === "streaming" || status === "submitted";
+
+  let errorMsg = status === "error" ? "Failed to fetch response" : null;
+
+  useEffect(() => {
+    if (status === "error" && prevStatusRef.current !== "error") {
+      console.error("Error fetching AI response");
+    }
+    prevStatusRef.current = status;
+  }, [status]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -50,9 +59,10 @@ export function ChatInterface() {
     await sendMessage({ text: message });
   };
 
-  const clearHistory = async () => {};
-
-  const error = null; // Replace with actual error state if needed
+  const clearHistory = async () => {
+    setMessages([]);
+    errorMsg = null;
+  };
 
   const messageList = Array.isArray(messages) ? messages : [];
 
@@ -91,7 +101,7 @@ export function ChatInterface() {
           )}
           {error && (
             <div className="rounded-lg bg-red-100 p-3 text-red-600">
-              Error: {error}
+              Error: {errorMsg}
             </div>
           )}
         </ConversationContent>
@@ -112,7 +122,7 @@ export function ChatInterface() {
         <Button
           type="submit"
           disabled={isLoading || !input}
-          className="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           Send
         </Button>

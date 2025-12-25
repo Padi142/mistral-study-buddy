@@ -23,8 +23,9 @@ import {
   X,
 } from "lucide-react";
 import type { CalendarEntry } from "~/lib/types/calendar";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import type { Id } from "../../convex/_generated/dataModel";
 
 const eventTypeIcons = {
   exam: GraduationCap,
@@ -93,7 +94,9 @@ function groupEventsByDate(entries: CalendarEntry[]): GroupedEvents {
 
 export function CalendarEvents() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newEvent, setNewEvent] = useState<Omit<CalendarEntry, "id">>({
+
+  const newEventMutation = useMutation(api.calendar_entries.createEntry);
+  const [newEvent, setNewEvent] = useState({
     date: "",
     subject: "",
     type: "study",
@@ -109,11 +112,17 @@ export function CalendarEvents() {
 
   const handleAddEvent = () => {
     if (!newEvent.date || !newEvent.subject) return;
+    // Generate a unique id for the new event (for user display only)
+    const id = crypto.randomUUID();
+    newEventMutation({ ...newEvent, id });
     setNewEvent({ date: "", subject: "", type: "study", description: "" });
     setIsModalOpen(false);
   };
 
-  const handleRemoveEvent = (id: string) => {};
+  const deleteEntry = useMutation(api.calendar_entries.deleteEntry);
+  const handleRemoveEvent = async (_id: Id<"calendar_entries">) => {
+    await deleteEntry({ id: _id });
+  };
 
   const eventCount = calendarEntries?.length ?? 0;
 
@@ -259,28 +268,34 @@ export function CalendarEvents() {
 
                     return (
                       <div
-                        key={entry.id}
+                        key={entry._id}
                         className={`group relative flex items-start gap-3 rounded-lg border-l-[3px] bg-white/70 px-3 py-2.5 transition-all duration-200 hover:bg-white hover:shadow-sm ${borderColor}`}
                       >
                         <div className={`mt-0.5 shrink-0 ${iconColor}`}>
                           <Icon className="h-4 w-4" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-2">
-                            <span className="truncate text-sm font-medium text-gray-800">
-                              {entry.subject}
-                            </span>
-                            <span className="shrink-0 rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-gray-500 uppercase">
-                              {entry.type}
-                            </span>
-                          </div>
+                          <span className="truncate text-sm font-medium text-gray-800">
+                            {entry.subject}
+                          </span>
                           <div className="mt-0.5 text-xs text-gray-500">
-                            {new Date(entry.date).toLocaleTimeString("en-US", {
-                              hour: "numeric",
-                              minute: "2-digit",
-                              hour12: true,
-                            })}
+                            <div className="flex items-start justify-between gap-2">
+                              <span>
+                                {new Date(entry.date).toLocaleTimeString(
+                                  "cs-CZ",
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: false,
+                                  },
+                                )}
+                              </span>
+                              <span className="shrink-0 rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium tracking-wide text-gray-500 uppercase">
+                                {entry.type}
+                              </span>
+                            </div>
                           </div>
+
                           {entry.description && (
                             <div className="mt-1 line-clamp-2 text-xs text-gray-400">
                               {entry.description}
@@ -288,7 +303,7 @@ export function CalendarEvents() {
                           )}
                         </div>
                         <button
-                          onClick={() => handleRemoveEvent(entry.id)}
+                          onClick={() => handleRemoveEvent(entry._id)}
                           className="absolute top-1 right-1 rounded p-1 opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-50"
                         >
                           <X className="h-3.5 w-3.5 text-gray-400 hover:text-red-500" />

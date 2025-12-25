@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import type { CalendarEntry } from "~/lib/types/calendar";
 import { useQuery } from "convex/react";
-import { api } from "convex/_generated/api";
+import { api } from "../../convex/_generated/api";
 
 const eventTypeIcons = {
   exam: GraduationCap,

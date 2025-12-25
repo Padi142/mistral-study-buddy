@@ -1,8 +1,8 @@
 import { tool } from "ai";
 import z from "zod";
 import { fetchQuery, fetchMutation } from "convex/nextjs";
-import { api } from "convex/_generated/api";
-import type { Id } from "convex/_generated/dataModel";
+import { api } from "../../../../convex/_generated/api";
+import type { Id } from "../../../../convex/_generated/dataModel";
 
 const getUsersCalendar = tool({
     description: "Get all entries the user has in their calendar",

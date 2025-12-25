@@ -57,7 +57,7 @@ export function ChatInterface() {
   const messageList = Array.isArray(messages) ? messages : [];
 
   return (
-    <div className="mx-auto flex h-[600px] w-full max-w-2xl flex-col rounded-lg border border-gray-200 bg-white shadow-lg">
+    <div className="flex h-[680px] w-full flex-col rounded-xl border border-white/30 bg-white/60 shadow-lg backdrop-blur-md">
       <Conversation className="flex-1">
         <ConversationContent className="space-y-4">
           {messageList.length === 0 && (
@@ -100,7 +100,7 @@ export function ChatInterface() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex gap-2 border-t border-gray-200 p-4"
+        className="flex gap-2 border-t border-white/20 p-4"
       >
         <Input
           value={input}

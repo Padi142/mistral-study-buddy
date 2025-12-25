@@ -23,6 +23,8 @@ import {
   GraduationCap,
 } from "lucide-react";
 import type { CalendarEntry } from "~/lib/types/calendar";
+import { useQuery } from "convex/react";
+import { api } from "convex/_generated/api";
 
 const eventTypeIcons = {
   exam: GraduationCap,
@@ -39,7 +41,6 @@ const eventTypeColors = {
 };
 
 export function CalendarEvents() {
-  const [calendarEntries, setCalendarEntries] = useState<CalendarEntry[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [newEvent, setNewEvent] = useState<Omit<CalendarEntry, "id">>({
@@ -48,10 +49,8 @@ export function CalendarEvents() {
     type: "study",
     description: "",
   });
-  
 
-
-
+  const calendarEntries = useQuery(api.calendar_entries.get);
 
   const handleAddEvent = () => {
     if (!newEvent.date || !newEvent.subject) return;
@@ -61,18 +60,11 @@ export function CalendarEvents() {
       id: crypto.randomUUID(),
     };
 
-    setCalendarEntries((prev) =>
-      [...prev, event].sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-      ),
-    );
     setNewEvent({ date: "", subject: "", type: "study", description: "" });
     setIsModalOpen(false);
   };
 
-  const handleRemoveEvent = (id: string) => {
-    setCalendarEntries((prev) => prev.filter((entry) => entry.id !== id));
-  };
+  const handleRemoveEvent = (id: string) => {};
 
   return (
     <div className="w-full max-w-2xl">
@@ -174,15 +166,16 @@ export function CalendarEvents() {
       </div>
 
       {/* Events List */}
-      {calendarEntries.length === 0 ? (
+      {calendarEntries?.length === 0 ? (
         <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
           <Calendar className="mx-auto h-12 w-12 text-gray-400" />
           <p className="mt-2 text-gray-500">No events scheduled yet.</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {calendarEntries.map((entry) => {
-            const Icon = eventTypeIcons[entry.type as keyof typeof eventTypeIcons];
+          {calendarEntries?.map((entry) => {
+            const Icon =
+              eventTypeIcons[entry.type as keyof typeof eventTypeIcons];
             return (
               <div
                 key={entry.id}

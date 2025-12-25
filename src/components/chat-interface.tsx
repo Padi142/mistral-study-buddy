@@ -34,6 +34,7 @@ export function ChatInterface() {
   const [input, setInput] = useState("");
   const prevStatusRef = useRef<string | null>(null);
 
+  const { messages, sendMessage, status } = useChat();
   const isLoading = status === "streaming" || status === "submitted";
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,8 +53,6 @@ export function ChatInterface() {
   const clearHistory = async () => {};
 
   const error = null; // Replace with actual error state if needed
-
-  const { messages, sendMessage } = useChat();
 
   const messageList = Array.isArray(messages) ? messages : [];
 

@@ -58,6 +58,10 @@ There is a hosted version of this app on Vercel: [https://mistral-study-buddy.ve
 
 In order to not reinvent the wheel, I've decided to use the amazing [Vercel AI SDK](https://sdk.vercel.ai/docs). The library provides really good and easy to use components for building both backend and frontend parts of an AI app. In the frontend, I am using the `useChat` hook to manage the chat interface and messages. The SDK also makes it easy to a streaming response using another library called `streamdown`, which allows rendering markdown content as it streams in from the LLM. The (Conversation)[https://ai-sdk.dev/elements/components/conversation] and (Message)[https://ai-sdk.dev/elements/components/message] components from the AI-elements collection are used to render the chat interface.
 
+### Gradient
+
+The background mesh radial gradient was carefully crafted using (MagicPattern)[https://www.magicpattern.design/tools/mesh-gradients].
+
 ## Backend
 
 The backend can be divided into two parts: The DB and the API route.
@@ -74,4 +78,12 @@ The API route is defined in `pages/api/chat.ts`. This route is called from the f
 
 The LLM is given access to a set of tools that allow it to read and modify the user's calendar on request. These tools are defined in the `tools.ts` file in the route. They are defined using the `Tool` class from the Vercel AI SDK and they interact with the database using the Convex client. As mentioned above, when the LLM uses the tools to make changes to the calendar, the frontend automatically updates in real time thanks to Convex's real-time syncing.
 
+## Possible improvements
 
+There are many possible improvements that can be made to this app. Here are a few ideas:
+
+- Real calendar integration (Google Calendar, ...)
+- User authentication
+- Quick message templates for common requests
+
+While I wanted to add these features in this small demo, I have decided to keep it simple and focus on the core functionality.

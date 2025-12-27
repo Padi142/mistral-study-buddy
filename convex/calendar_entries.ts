@@ -4,8 +4,8 @@ import { v } from "convex/values";
 export const get = query({
     args: {},
     handler: async (ctx) => {
-        const entries = await ctx.db.query("calendar_entries").collect();
-        entries.sort((a, b) => a.date.localeCompare(b.date));;
+        const entries = await ctx.db.query("calendar_entries").withIndex("by_date")
+            .order("asc").collect();
         return entries;
     },
 });

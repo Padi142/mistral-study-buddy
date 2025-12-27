@@ -56,11 +56,11 @@ There is a hosted version of this app on Vercel: [https://mistral-study-buddy.ve
 
 ## Frontend
 
-In order to not reinvent the wheel, I've decided to use the amazing [Vercel AI SDK](https://sdk.vercel.ai/docs). The library provides really good and easy to use components for building both backend and frontend parts of an AI app. In the frontend, I am using the `useChat` hook to manage the chat interface and messages. The SDK also makes it easy to a streaming response using another library called `streamdown`, which allows rendering markdown content as it streams in from the LLM. The (Conversation)[https://ai-sdk.dev/elements/components/conversation] and (Message)[https://ai-sdk.dev/elements/components/message] components from the AI-elements collection are used to render the chat interface.
+In order to not reinvent the wheel, I've decided to use the amazing [Vercel AI SDK](https://sdk.vercel.ai/docs). The library provides really good and easy to use components for building both backend and frontend parts of an AI app. In the frontend, I am using the `useChat` hook to manage the chat interface and messages. The SDK also makes it easy to a streaming response using another library called `streamdown`, which allows rendering markdown content as it streams in from the LLM. The [Conversation](https://ai-sdk.dev/elements/components/conversation) and [Message](https://ai-sdk.dev/elements/components/message) components from the AI-elements collection are used to render the chat interface.
 
 ### Gradient
 
-The background mesh radial gradient was carefully crafted using (MagicPattern)[https://www.magicpattern.design/tools/mesh-gradients].
+The background mesh radial gradient was carefully crafted using [MagicPattern](https://www.magicpattern.design/tools/mesh-gradients).
 
 ## Backend
 
@@ -68,7 +68,7 @@ The backend can be divided into two parts: The DB and the API route.
 
 ### Database
 
-For the database, I've decided to use (Convex)[https://www.convex.dev/]. Convex is awesome because it's backend living in one single folder, `/convex`, and it provides a really good developer experience. There is a `schema.ts` file, where the database schema is defined using TypeScript and Zod. All queries and mutations are defined in `calendar_entries.ts`. From these two files, Convex generates a type-safe api client. This client is used on both the frontend and in the API route.
+For the database, I've decided to use [Convex](https://www.convex.dev/). Convex is awesome because it's backend living in one single folder, `/convex`, and it provides a really good developer experience. There is a `schema.ts` file, where the database schema is defined using TypeScript and Zod. All queries and mutations are defined in `calendar_entries.ts`. From these two files, Convex generates a type-safe api client. This client is used on both the frontend and in the API route.
 
 Convex also by default syncs the database in real time among all clients. Meaning that if the LLM makes a change to the calendar using one of the tools, the frontend will automatically update without needing to refresh the page or without any additional code for the syncing logic.
 

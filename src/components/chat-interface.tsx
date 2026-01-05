@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import {
   Message,
   MessageActions,
@@ -30,7 +36,11 @@ function getMessageContent(message: {
     .join("");
 }
 
-export function ChatInterface() {
+interface ChatInterfaceProps {
+  onInputChange?: (setter: Dispatch<SetStateAction<string>>) => void;
+}
+
+export function ChatInterface({ onInputChange }: ChatInterfaceProps = {}) {
   const [input, setInput] = useState("");
   const prevStatusRef = useRef<string | null>(null);
 
@@ -49,6 +59,12 @@ export function ChatInterface() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
+
+  useEffect(() => {
+    if (onInputChange) {
+      onInputChange(setInput);
+    }
+  }, [onInputChange]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
